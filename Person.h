@@ -5,19 +5,26 @@ using namespace std;
 
 class Person
 {
-
+  friend ostream & print(ostream& out, const Person& lhs);
+  friend istream & read(istream &in, Person& lhs);
   public:
-  string name;
-  string address;
+  Person()=default;
+  Person(string n, string ad):name(n), address(ad) {}
+  Person(istream &is)
+  {
+    read(is, *this);
+  }
   string name_return() const
-  { 
+  {
      return name;
   }
   string addr_return() const
-  { 
+  {
      return address;
   }
- 
+  private:
+  string name;
+  string address;
 };
 
 ostream & print(ostream& out, const Person& lhs)
@@ -31,4 +38,3 @@ istream & read(istream &in, Person& lhs)
   in>>lhs.name>>lhs.address;
   return in;
 }
-
