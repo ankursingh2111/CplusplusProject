@@ -9,10 +9,12 @@ class Sales_data
   friend istream & read(istream &in, Sales_data& lhs);
   friend Sales_data add(const Sales_data& rhs, const Sales_data& lhs);
   public:
-  Sales_data():bookNo(),units_sold(0),price(0.0),revenue(0.0) {}
-  Sales_data(string s):bookNo(s),units_sold(0),price(0.0),revenue(0.0) {}
+  //Sales_data():bookNo(),units_sold(0),price(0.0),revenue(0.0) {}
+  //Sales_data(string s):bookNo(s),units_sold(0),price(0.0),revenue(0.0) {}
+  Sales_data(string s):Sales_data(s,0,0.0) {}
+  Sales_data():Sales_data("",0,0.0) {}
   Sales_data(string s,int ut, double pr):bookNo(s),units_sold(ut),price(pr),revenue(pr*ut) {}
-  Sales_data(istream &is)
+  Sales_data(istream &is): Sales_data()
   {
      read(is, *this);
   }
