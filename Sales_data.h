@@ -19,6 +19,7 @@ class Sales_data
      read(is, *this);
   }
   string isbn() const { return bookNo; }
+
   Sales_data& combine(const Sales_data&);
   private:
   string bookNo;
