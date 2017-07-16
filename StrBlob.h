@@ -12,7 +12,9 @@ public:
   typedef vector<string>::size_type size_t;
   StrBlob():data(make_shared<vector<string>>()) {}
   StrBlob(initializer_list<string> il): data(make_shared<vector<string>>(il)) {}
-
+  //StrBlob(const StrBlob &sb1): data(make_shared<vector<string>>(*sb1.data) ) {}
+  StrBlob(const StrBlob &sb1): data(new vector<string>(*sb1.data) ) {}
+  StrBlob & operator=(const StrBlob &);
   void push_back(string &s)
   {
     data->push_back(s);
@@ -20,15 +22,9 @@ public:
   string & front() const;
   string & back() const;
   void pop_back();
-  StrBlobptr * begin()
-  {
-    return StrBlobptr(*this);
-  }
-  StrBlobptr * end()
-  {
-    auto ret=StrBlobptr(*this, data->size());
-    return ret;
-  }
+  StrBlobptr & begin();
+  StrBlobptr & end();
+
 private:
   shared_ptr<vector<string>> data;
   void check_ptr(size_t sz, string msg) const;
@@ -37,12 +33,12 @@ private:
 class StrBlobptr
 {
 public:
-  StrBlobptr(): curr(0);
+  StrBlobptr(): wptr(), curr(0) {}
   StrBlobptr(StrBlob &Sblob, size_t sz=0): wptr(Sblob.data), curr(sz) {}
-  string & deref () const;
+  string & deref () ;
   StrBlobptr & incr();
 private:
-  shared_ptr<vector<string>> check_ptr(size_t sz, string msg);
+  shared_ptr<vector<string>> check_ptr(size_t sz, string msg) ;
   weak_ptr<vector<string>> wptr;
   size_t curr;
 };

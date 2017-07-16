@@ -1,5 +1,10 @@
 #include "StrBlob.h"
 
+StrBlob & StrBlob::operator=(const StrBlob &sb1)
+{
+  data=make_shared<vector<string>>(*sb1.data);
+  return *this;
+}
 void StrBlob::check_ptr(size_t sz, string msg) const
 {
   if(sz>=data->size())
@@ -20,22 +25,29 @@ string & StrBlob::back() const
   check_ptr(0,"back on empty vector");
   return data->back();
 }
-
+/*StrBlobptr & StrBlob::begin() const
+{
+  return StrBlobptr(*this);
+}
+StrBlobptr & StrBlob::end() const
+{
+  return StrBlobptr(*this, data->size());
+}*/
 shared_ptr<vector<string>> StrBlobptr::check_ptr(size_t sz, string msg)
 {
-  auto ret= wptr.lock()
+  auto ret= wptr.lock();
   if(!ret)
     throw runtime_error("Undefined StrBlobptr\n");
   if(sz>=ret->size())
     throw out_of_range(msg);
     return ret;
 }
-string & StrBlobptr::deref() const
+string & StrBlobptr::deref()
 {
   auto ret=check_ptr(curr, "No entry in vector");
-  return ret->[curr];
+  return (*ret)[curr];
 }
-StrBlobptr & incr()
+StrBlobptr & StrBlobptr::incr()
 {
   auto ret=check_ptr(curr, "No entry in vector");
   curr++;
