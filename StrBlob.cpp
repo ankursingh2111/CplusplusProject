@@ -33,6 +33,14 @@ StrBlobptr & StrBlob::end() const
 {
   return StrBlobptr(*this, data->size());
 }*/
+bool operator==(const StrBlob& lhs, const StrBlob& rhs)
+{
+  return *lhs.data==*rhs.data;
+}
+bool operator!=(const StrBlob& lhs, const StrBlob& rhs)
+{
+  return !(lhs==rhs);
+}
 shared_ptr<vector<string>> StrBlobptr::check_ptr(size_t sz, string msg)
 {
   auto ret= wptr.lock();
@@ -52,4 +60,12 @@ StrBlobptr & StrBlobptr::incr()
   auto ret=check_ptr(curr, "No entry in vector");
   curr++;
   return *this;
+}
+bool operator==(const StrBlobptr& lhs, const StrBlobptr& rhs)
+{
+  return lhs.wptr.lock()==rhs.wptr.lock() && lhs.curr==rhs.curr;
+}
+bool operator!=(const StrBlobptr& lhs, const StrBlobptr& rhs)
+{
+  return !(lhs==rhs);
 }

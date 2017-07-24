@@ -9,6 +9,8 @@ class StrBlob
 {
 public:
   friend class StrBlobptr;
+  friend bool operator==(const StrBlob&, const StrBlob&);
+  friend bool operator!=(const StrBlob&, const StrBlob&);
   typedef vector<string>::size_type size_t;
   StrBlob():data(make_shared<vector<string>>()) {}
   StrBlob(initializer_list<string> il): data(make_shared<vector<string>>(il)) {}
@@ -29,10 +31,13 @@ private:
   shared_ptr<vector<string>> data;
   void check_ptr(size_t sz, string msg) const;
 };
-
+bool operator==(const StrBlob&, const StrBlob&);
+bool operator!=(const StrBlob&, const StrBlob&);
 class StrBlobptr
 {
 public:
+  friend bool operator==(const StrBlobptr&, const StrBlobptr&);
+  friend bool operator!=(const StrBlobptr&, const StrBlobptr&);
   StrBlobptr(): wptr(), curr(0) {}
   StrBlobptr(StrBlob &Sblob, size_t sz=0): wptr(Sblob.data), curr(sz) {}
   string & deref () ;
@@ -42,3 +47,5 @@ private:
   weak_ptr<vector<string>> wptr;
   size_t curr;
 };
+bool operator==(const StrBlobptr&, const StrBlobptr&);
+bool operator!=(const StrBlobptr&, const StrBlobptr&);

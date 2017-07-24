@@ -25,16 +25,40 @@ Sales_data add(const Sales_data& rhs, const Sales_data& lhs)
    sum.combine(rhs);
    return sum;
 }
-
+Sales_data & operator+=(const Sales_data &Sales1)
+{
+  units_sold+=Sales1.units_sold;
+  revenue+=Sales1.revenue;
+  return *this;
+}
+Sales_data operator+(const Sales_data &lhs, const Sales_data &rhs)
+{
+  Sales_data sum=lhs;
+  sum+=rhs;
+  return sum;
+}
 ostream & print(ostream& out, const Sales_data& lhs)
 {
   out<<lhs.bookNo<<" "<<lhs.units_sold<<" "<<lhs.revenue;
   return out;
 }
-
+ostream & operator<<(ostream& out, const Sales_data& lhs)
+{
+  out<<lhs.bookNo<<" "<<lhs.units_sold<<" "<<lhs.revenue;
+  return out;
+}
 istream & read(istream &in, Sales_data& lhs)
 {
   in>>lhs.bookNo>>lhs.units_sold>>lhs.price;
   lhs.revenue=lhs.units_sold*lhs.price;
+  return in;
+}
+istream & operator>>(istream &in, Sales_data& lhs)
+{
+  in>>lhs.bookNo>>lhs.units_sold>>lhs.price;
+  if(in)
+    lhs.revenue=lhs.units_sold*lhs.price;
+  else
+    lhs=Sales_data();
   return in;
 }

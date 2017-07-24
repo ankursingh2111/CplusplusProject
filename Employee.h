@@ -6,6 +6,8 @@ using namespace std;
 class Employee
 {
 public:
+friend ostream& operator<<(ostream& out, const Employee &E1);
+friend istream& operator>>(istream& in, Employee &E1);
 Employee():emp_name(string()),emp_id(++incr) {}
 Employee(string &str):emp_name(str), emp_id(++incr)  {}
 Employee(const Employee &E1): emp_name(E1.emp_name), emp_id(++incr)  {}
